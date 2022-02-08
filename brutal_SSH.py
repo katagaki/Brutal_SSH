@@ -98,8 +98,6 @@ class Brutal_SSH():
 				ssh.close(); exit(0)
 			except paramiko.AuthenticationException:
 				print(ver_out + ffb + "{} : {:.<50} {}".format(username, password, frb + "Failed" + sf))
-			except (socket.error as e):
-				print(err_out + ffb + "{} : {:.<50} {}".format(username, password, fcb + "Connection Failed" + sf))
 			except paramiko.SSHException: 
 				print(err_out + ffb + "{} : {:.<50} {}".format(username, password, fbb + "Error" + sf))
 
