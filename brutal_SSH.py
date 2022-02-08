@@ -2,7 +2,7 @@
 from config import *
 import argparse
 from threading import Thread
-import Queue
+import queue
 import paramiko
 import socket
 import sys
@@ -16,8 +16,8 @@ class Brutal_SSH():
 		self.__version__ = "1.0"
 		self.host_ip = ""
 		self.host_port = 22
-		self.usernames = Queue.LifoQueue()
-		self.passwords = Queue.LifoQueue()
+		self.usernames = queue.LifoQueue()
+		self.passwords = queue.LifoQueue()
 		self.password_list = []
 		self.threads = 4
 		self.timeout = 5
@@ -39,7 +39,7 @@ class Brutal_SSH():
 		args = parser.parse_args()
 		
 		if not args.host_ip:
-			print parser.print_help()
+			print(parser.print_help())
 			exit()
 
 		self.host_ip = args.host_ip
@@ -49,19 +49,19 @@ class Brutal_SSH():
 		if args.user: self.usernames.put(args.user)
 		elif args.usersfile: self.do_fill_queue(args.usersfile, True)
 		if args.passwordsfile: self.do_fill_queue(args.passwordsfile, False)
-		print ver_out + "{}".format("Many SSH configuration limits the number of parallel")
-		print ver_out + "{}".format("connection, so it is recommended to reduce the task: use -t 4")
+		print(ver_out + "{}".format("Many SSH configuration limits the number of parallel"))
+		print(ver_out + "{}".format("connection, so it is recommended to reduce the task: use -t 4"))
 		self.go_brutal()
 		
 	def banner(self):
-		print fcb + """ 
+		print(fcb + """
  ____             _        _   %s  ____ ____  _   _ 
 %s| __ ) _ __ _   _| |_ __ _| |  %s / ___/ ___|| | | |
 %s|  _ \| '__| | | | __/ _` | |  %s	\___ \___ \| |_| |
 %s| |_) | |  | |_| | || (_| | |  %s	 ___) |__) |  _  |
 %s|____/|_|   \__,_|\__\__,_|_|  %s |____/____/|_| |_| %s%s%s
 
-			""" % (frb, fcb,frb, fcb, frb, fcb, frb, fcb, frb, sf,"@d3vilbug v", self.__version__) 
+			""" % (frb, fcb,frb, fcb, frb, fcb, frb, fcb, frb, sf,"@d3vilbug v", self.__version__))
 
 	def do_readfile(self, filename):
 		try:
@@ -70,16 +70,16 @@ class Brutal_SSH():
 				file_list = [line.strip() for line in file_list]
 				return list(set(file_list))
 		except IOError:
-			print err_out + "File Not Found." + sf
+			print(err_out + "File Not Found." + sf)
 			exit(0)
 
 	def do_fill_queue(self, filename, flag=False):
 		if flag:
-			print ver_out + "{:.<50}".format("Reading username file") + sf
+			print(ver_out + "{:.<50}".format("Reading username file") + sf)
 			for username in self.do_readfile(filename):
 				self.usernames.put(username)
 		else:
-			print ver_out + "{:.<50}".format("Reading password file") + sf
+			print(ver_out + "{:.<50}".format("Reading password file") + sf)
 			self.password_list = self.do_readfile(filename)
 
 	def do_fill_pass_queue(self):
@@ -94,14 +94,14 @@ class Brutal_SSH():
 			ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 			try:
 				ssh.connect(self.host_ip, port=self.host_port, username=username, password=password, timeout=self.timeout)
-				print info_out + ffb + "{} : {:.<50} {}".format(username, password, fgb + "Successful" + sf)
+				print(info_out + ffb + "{} : {:.<50} {}".format(username, password, fgb + "Successful" + sf))
 				ssh.close(); exit(0)
 			except paramiko.AuthenticationException:
-				print ver_out + ffb + "{} : {:.<50} {}".format(username, password, frb + "Failed" + sf)
-			except socket.error, e:
-				print err_out + ffb + "{} : {:.<50} {}".format(username, password, fcb + "Connection Failed" + sf)
+				print(ver_out + ffb + "{} : {:.<50} {}".format(username, password, frb + "Failed" + sf))
+			except (socket.error as e):
+				print(err_out + ffb + "{} : {:.<50} {}".format(username, password, fcb + "Connection Failed" + sf))
 			except paramiko.SSHException: 
-				print err_out + ffb + "{} : {:.<50} {}".format(username, password, fbb + "Error" + sf)
+				print(err_out + ffb + "{} : {:.<50} {}".format(username, password, fbb + "Error" + sf))
 
 	def do_brute_single(self, username):
 		threads_list = []
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 	brutal_shh = Brutal_SSH()
 	brutal_shh.do_bruteforce()
 	end = time.time()
-	print "\n"
-	print "-"*20
-	print end - start
-	print "-"*20
+	print("\n")
+	print("-"*20)
+	print(end - start)
+	print("-"*20)
