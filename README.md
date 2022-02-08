@@ -15,36 +15,30 @@
 
 ### Requirements
 
-- Python (2.7.*)
-- Python `pip`
+- Python (3.*)
+- Python `pip3`
 - Python module `colorama`
 - Python module `argparse`
 - Python module `paramiko`
-- Python module `threading`
 - Python module `logging`
 
 ### Install modules
 
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 ### Tested on
 
-- Kali linux
-
-### Download Brutal_SSH
-
-	git clone https://github.com/d3vilbug/Brutal_SSH
-
+- macOS Monterey 12.3
 
 ### Usage
 
-	python brutal_SSH.py -h
+	python3 brutal_SSH.py -h
 
 ***Brute force password of single user***
 	
-	python brutal_SSH.py -i 192.168.7.128 -u msfadmin -P wordlist/passfile.txt
+	python3 brutal_SSH.py -i 192.168.7.128 -u msfadmin -P wordlist/passfile.txt
 
 ***Brute force user and password***
 	
-	python brutal_SSH.py -i 192.168.7.128 -U wordlist/userfile.txt -P wordlist/passfile.txt
+	python3 brutal_SSH.py -i 192.168.7.128 -U wordlist/userfile.txt -P wordlist/passfile.txt
 
